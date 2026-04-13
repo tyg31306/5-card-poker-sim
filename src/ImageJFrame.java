@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.nio.channels.NetworkChannel;
 import java.util.*;
 import javax.swing.Timer;
 
@@ -21,7 +22,7 @@ public class ImageJFrame
       int index = i;
       new javax.swing.Timer(200 * i, e -> {
           JLabel j = new JLabel();
-          j.setBounds(0 + (90 * index), 0, 90, 126);
+          j.setBounds(0 + (90 * index), 15, 90, 126);
           ImageIcon icon = new ImageIcon(cpuH.get(index).getImgStr());
           ImageIcon scaledIcon = resize(icon, j);
           j.setIcon(scaledIcon);
@@ -44,15 +45,28 @@ public class ImageJFrame
             f.repaint();
         }).start();
     }
+      JLabel dealing = new JLabel("Dealing...");
+      dealing.setFont(new Font("Arial", Font.BOLD, 18));
+      dealing.setForeground(Color.BLACK);
+      Dimension dealingSize = dealing.getPreferredSize();
+      dealing.setBounds(225 - dealingSize.width / 2, 200,  dealingSize.width, dealingSize.height);
+      f.add(dealing);
+      
       int dealTime = 2000;
+      Timer removeDealing = new javax.swing.Timer(dealTime + 250, e -> {
+          f.remove(dealing);
+          f.revalidate();
+          f.repaint();
+      });
+      removeDealing.start();
       Timer reveal = new javax.swing.Timer (dealTime + 300, e -> {
-    
+
+          int centerX = 225;
           JLabel cpuLabel = new JLabel("Dealer: " + cpuHStr);
           cpuLabel.setFont(new Font("Arial", Font.BOLD, 18));
           cpuLabel.setForeground(Color.BLACK);
           Dimension size = cpuLabel.getPreferredSize();
-          int centerX = 225;
-          cpuLabel.setBounds(centerX - size.width / 2, 130, size.width, size.height);
+          cpuLabel.setBounds(centerX - size.width / 2, 155, size.width, size.height);
           f.add(cpuLabel);
         
           JLabel label = new JLabel("Player: " + pHStr);
@@ -71,37 +85,39 @@ public class ImageJFrame
               winnerLabel = new JLabel("Player Wins!");
           else
               winnerLabel = new JLabel("Tie!");
-          winnerLabel.setBounds(150, 200, 200, 30);
-          winnerLabel.setForeground(Color.WHITE);
           winnerLabel.setFont(new Font("Arial", Font.BOLD, 18));
+          size = winnerLabel.getPreferredSize();
+          winnerLabel.setBounds(centerX - size.width / 2, 200,  size.width, size.height);
+          winnerLabel.setForeground(Color.WHITE);
+          
+          
         
           f.add(winnerLabel);
 
           JPanel cpuGlow = new JPanel();
-          cpuGlow.setBounds(startX - 5, 0 - 5, totalWidth + 10, 126 + 10);
+          cpuGlow.setBounds(startX - 5, 10, totalWidth + 10, 126 + 10);
 
           if (winner.equals("Dealer")) {
-              cpuGlow.setBackground(new Color(255, 255, 0, 60));
-          } else {
-              cpuGlow.setBackground(new Color(255, 255, 255, 30));
+              cpuGlow.setBackground(new Color(255, 215, 0, 100));
+              cpuGlow.setOpaque(true);
+              cpuGlow.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 3));
+              f.add(cpuGlow);
           }
 
-          cpuGlow.setOpaque(true);
-          f.add(cpuGlow);
-
+          System.out.println(winner);
           JPanel playerGlow = new JPanel();
           playerGlow.setBounds(startX - 5, 260 - 5, totalWidth + 10, 126 + 10);
 
           if (winner.equals("Player")) {
-              playerGlow.setBackground(new Color(255, 255, 0, 60));
-          } else {
-              playerGlow.setBackground(new Color(255, 255, 255, 30));
+              playerGlow.setBackground(new Color(255, 215, 0, 100));
+              playerGlow.setOpaque(true);
+              playerGlow.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 3));
+              f.add(playerGlow);
           }
-
-          playerGlow.setOpaque(true);
-          f.add(playerGlow);
+          
           cpuLabel.setHorizontalAlignment(SwingConstants.CENTER);
           label.setHorizontalAlignment(SwingConstants.CENTER);
+          winnerLabel.setHorizontalAlignment(SwingConstants.CENTER);
           f.revalidate();
           f.repaint();
       });
