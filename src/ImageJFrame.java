@@ -3,10 +3,8 @@ import java.awt.*;
 import java.util.*;
 import javax.swing.Timer;
 
-public class ImageJFrame
-{
-  ImageJFrame(ArrayList<Card> cpuH, ArrayList<Card> pH, String winner, String pHStr, String cpuHStr) 
-  {
+public class ImageJFrame {
+  ImageJFrame(ArrayList<Card> cpuH, ArrayList<Card> pH, String winner, String pHStr, String cpuHStr) {
     JFrame f = new JFrame("Poker");
     f.setSize(450, 500);
     f.setLayout(null);
@@ -30,8 +28,7 @@ public class ImageJFrame
           f.repaint();
       }).start();
     }
-    for(int i = 0;i < pH.size();i++)
-    {
+    for(int i = 0;i < pH.size();i++) {
         int index = i;
         new javax.swing.Timer(1000 + 200 * i, e -> {
             JLabel j = new JLabel();
@@ -88,8 +85,6 @@ public class ImageJFrame
           size = winnerLabel.getPreferredSize();
           winnerLabel.setBounds(centerX - size.width / 2, 200,  size.width, size.height);
           winnerLabel.setForeground(Color.WHITE);
-          
-          
         
           f.add(winnerLabel);
 
@@ -103,7 +98,6 @@ public class ImageJFrame
               f.add(cpuGlow);
           }
 
-          System.out.println(winner);
           JPanel playerGlow = new JPanel();
           playerGlow.setBounds(startX - 5, 260 - 5, totalWidth + 10, 126 + 10);
 
